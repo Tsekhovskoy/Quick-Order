@@ -16,7 +16,8 @@ class Status extends AbstractModel implements InterfaceStatus
 
     public function getId()
     {
-        $this->getData(StatusSchemaInterface::STATUS_ID_COL_NAME);
+        return $this->getData(StatusSchemaInterface::STATUS_ID_COL_NAME);
+
     }
 
     public function setStatusCode(string $code): InterfaceStatus

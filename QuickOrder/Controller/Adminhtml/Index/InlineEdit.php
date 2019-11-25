@@ -82,6 +82,8 @@ class InlineEdit extends \Magento\Backend\App\Action
                 $this->validatePost($pageData, $page, $error, $messages);
                 $extendedPageData = $page->getData();
                 $this->setCmsPageData($page, $extendedPageData, $pageData);
+
+
                 $this->orderRepository->save($page);
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $messages[] = $this->getErrorWithPageId($page, $e->getMessage());

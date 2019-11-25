@@ -9,8 +9,9 @@ interface StatusInterface
     const REGISTRY_KEY              = 'thesis_quickorder_lesson';
 
     const ID_FIELD                  = 'status_id';
+
     /**
-     * @return int|null
+     * @return mixed
      */
     public function getId();
 

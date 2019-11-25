@@ -12,6 +12,7 @@ use Thesis\QuickOrder\Api\Model\Data\StatusInterfaceFactory;
 use Thesis\QuickOrder\Api\Model\QuickOrderRepositoryInterface;
 use Thesis\QuickOrder\Model\ResourceModel\Status\CollectionFactory;
 use Thesis\QuickOrder\Model\ResourceModel\StatusFactory;
+use Thesis\QuickOrder\Model\Status;
 
 class Save extends Action
 {
@@ -30,7 +31,7 @@ class Save extends Action
     /**
      * @var StatusInterfaceFactory
      */
-    private $status;
+    private $statusModel;
     /**
      * @var StatusFactory
      */
@@ -44,21 +45,21 @@ class Save extends Action
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param CollectionFactory $statusCollectionFactory
+     * @param StatusInterface $statusModel
      * @param StatusFactory $statusFactory
      * @param QuickOrderRepositoryInterface $repository
      * @param QuickOrderInterfaceFactory $quickOrderInterfaceFactory
      * @param LoggerInterface $logger
-     * @param StatusInterface $status
      */
-    public function __construct(Context $context, PageFactory $resultPageFactory, CollectionFactory $statusCollectionFactory, StatusFactory $statusFactory, QuickOrderRepositoryInterface $repository, QuickOrderInterfaceFactory $quickOrderInterfaceFactory, LoggerInterface $logger, StatusInterfaceFactory $status)
+    public function __construct(Context $context, PageFactory $resultPageFactory, CollectionFactory $statusCollectionFactory, StatusInterfaceFactory $statusModel, StatusFactory $statusFactory, QuickOrderRepositoryInterface $repository, QuickOrderInterfaceFactory $quickOrderInterfaceFactory, LoggerInterface $logger)
     {
+        $this->statusModel   =  $statusModel;
         $this->statusFactory = $statusFactory;
         $this->statusCollectionFactory = $statusCollectionFactory;
         $this->repository    =  $repository;
         $this->modelFactory  =  $quickOrderInterfaceFactory;
         $this->logger        =  $logger;
-        $this->status        =  $status;
-        return parent::__construct($context);
+        parent::__construct($context);
     }
     /**
      * @return \Magento\Framework\App\ResponseInterface|\Magento\Framework\Controller\ResultInterface|void
@@ -66,13 +67,21 @@ class Save extends Action
     public function execute()
     {
         $params = $this->getRequest()->getParams();
-        /** @var AbstractModel $model */
+        /**
+         * @var Status $statusmodel
+         * @var AbstractModel $model
+         */
 
-        $statusmodel = $this->status->create();
-        $statusResource = $this->statusFactory->create();
-        $statusCollection = $this->statusCollectionFactory->create();
+        $statusmodell = $this->statusModel->create();
+        $this->statusFactory->create()->load($statusmodell,"1","is_default");
+
+
+
+        $statusmodel = $this->statusCollectionFactory->create()->addFieldToFilter('is_default', ['eq' => 1])->getFirstItem();
+//      $statusCollection = $this->statusCollectionFactory->create()->getItems();
+
         $model = $this->modelFactory->create();
-        $model->setStatus($statusmodel);
+        $model->setStatus($statusmodell);
         $model->setName($params['name']);
         $model->setSku($params['sku']);
         $model->setPhone($params['phone']);

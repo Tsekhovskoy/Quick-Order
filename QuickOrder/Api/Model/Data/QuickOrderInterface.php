@@ -2,6 +2,7 @@
 
 namespace Thesis\QuickOrder\Api\Model\Data;
 
+
 interface QuickOrderInterface
 {
     const CACHE_TAG                 = 'thesis_quickorder';
