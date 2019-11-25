@@ -1,0 +1,50 @@
+<?php /** @var \Thesis\QuickOrder\Block\QuickOrder $block */ ?>
+<?php $productSku = $block->getProductSku()?>
+<button type="submit"
+        title="<?= $block->escapeHtml(__('Quick Order')) ?>"
+        class="btn-btn-primary"
+        id="btn-btn-primary<?=$productSku ?>"
+        >
+    <span><?= /* @escapeNotVerified */ __('Quick Order') ?></span>
+</button>
+
+<div class="mypopup<?= $productSku ?>">
+    <form action="<?= $block->getUrl("quickorderr/index/save") ?>" method="POST">
+        <label>Name
+            <input type="text" name="name" required>
+        </label>
+        <label>Phone
+            <input type="text" name="phone" required>
+        </label>
+        <label>Email
+            <input type="email" name="email">
+        </label>
+            <input type="hidden" name="sku" value="<?= $productSku ?>">
+            <input type="hidden" name="url" value="<?= $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])?>">
+        <input type="submit" value="Send">
+    </form>
+</div>
+<?= $url = $block->getUrl('alevel/index/create'); ini_set('display_errors', 1);
+        error_reporting(E_ALL);?>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function($,modal) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Quick order',
+                buttons: false
+            };
+            var popup = modal(options, $('.mypopup<?= $productSku ?>'));
+            $("#btn-btn-primary<?=$productSku?>").on("click",function(){
+                $('.mypopup<?= $productSku ?>').modal('openModal');
+            });
+        }
+    );
+</script>
+
