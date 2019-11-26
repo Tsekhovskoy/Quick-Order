@@ -56,15 +56,15 @@ class Status extends AbstractModel implements InterfaceStatus
         return (bool)$this->getData(StatusSchemaInterface::IS_DEFAULT);
     }
 
-    public function setIsDeleted(bool $deleted): InterfaceStatus
-    {
-        $this->setData(StatusSchemaInterface::IS_DELETED, (int) $deleted);
-
-        return $this;
-    }
-
-    public function getIsDeleted(): bool
-    {
-        return (bool)$this->getData(StatusSchemaInterface::IS_DELETED);
-    }
+//    public function setIsDeleted(bool $deleted): InterfaceStatus
+//    {
+//        $this->setData(StatusSchemaInterface::IS_DELETED, (int) $deleted);
+//
+//        return $this;
+//    }
+//
+//    public function getIsDeleted(): bool
+//    {
+//        return (bool)$this->getData(StatusSchemaInterface::IS_DELETED);
+//    }
 }

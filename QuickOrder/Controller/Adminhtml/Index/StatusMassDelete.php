@@ -13,6 +13,9 @@ class StatusMassDelete extends BaseAction
         if (count($ids)) {
             foreach ($ids as $id) {
                 try {
+                    if ($this->repository->getById($id)->getData('is_default')) {
+                        throw new \Exception();
+                    }
                     $this->repository->deleteById($id);
                 } catch (\Exception $e) {
                     $this->logger->error($e->getMessage());

@@ -47,9 +47,9 @@ interface StatusInterface
      * @param bool $deleted
      * @return StatusInterface
      */
-    public function setIsDeleted(bool $deleted);
-    /**
-     * @return bool
-     */
-    public function getIsDeleted();
+//    public function setIsDeleted(bool $deleted);
+//    /**
+//     * @return bool
+//     */
+//    public function getIsDeleted();
 }

@@ -13,6 +13,8 @@ use Thesis\QuickOrder\Api\Model\QuickOrderRepositoryInterface;
 use Thesis\QuickOrder\Model\ResourceModel\Status\CollectionFactory;
 use Thesis\QuickOrder\Model\ResourceModel\StatusFactory;
 use Thesis\QuickOrder\Model\Status;
+use Magento\Framework\Exception\LocalizedException;
+
 
 class Save extends Action
 {
@@ -66,6 +68,10 @@ class Save extends Action
      */
     public function execute()
     {
+
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+
         $params = $this->getRequest()->getParams();
         /**
          * @var Status $statusmodel
@@ -73,26 +79,40 @@ class Save extends Action
          */
 
         $statusmodell = $this->statusModel->create();
-        $this->statusFactory->create()->load($statusmodell,"1","is_default");
+        $this->statusFactory->create()->load($statusmodell, "1", "is_default");
 
-
-
-        $statusmodel = $this->statusCollectionFactory->create()->addFieldToFilter('is_default', ['eq' => 1])->getFirstItem();
+        $statusmodell = $this->statusCollectionFactory->create()->addFieldToFilter('is_default', ['eq' => 1])->getFirstItem();
 //      $statusCollection = $this->statusCollectionFactory->create()->getItems();
 
         $model = $this->modelFactory->create();
-        $model->setStatus($statusmodell);
-        $model->setName($params['name']);
-        $model->setSku($params['sku']);
-        $model->setPhone($params['phone']);
-        $model->setEmail($params['email']);
+
         try {
+            if (!\Zend_Validate::is(trim($params['name']), 'NotEmpty')) {
+                throw new LocalizedException(('Enter the Name and try again.'));
+            }
+            if (!\Zend_Validate::is(trim($params['phone']), 'NotEmpty')) {
+                throw new LocalizedException(('Enter the phone and try again.'));
+            }
+            if (!\Zend_Validate::is(trim($params['email']), 'EmailAddress') && !empty($params['email'])) {
+                throw new LocalizedException(__('The email address is invalid. Verify the email address and try again.'));
+            }
+
+            $model->setStatus($statusmodell);
+            $model->setName($params['name']);
+            $model->setSku($params['sku']);
+            $model->setPhone($params['phone']);
+            $model->setEmail($params['email']);
+
             $this->repository->save($model);
             $this->messageManager->addSuccessMessage('Saved!');
         } catch (CouldNotSaveException $e) {
             $this->logger->error($e->getMessage());
             $this->messageManager->addErrorMessage('Error');
+        } catch (LocalizedException $e) {
+            $this->logger->error($e->getMessage());
+            $this->messageManager->addErrorMessage($e->getMessage());
         }
+
         $this->_redirect($params['url']);
     }
 }
