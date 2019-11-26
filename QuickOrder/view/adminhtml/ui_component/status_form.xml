@@ -101,11 +101,16 @@
             </settings>
         </field>
 
+
+
+<!--Требует коррекции. Выводит слайдер если данный блок закоментировать. При инвизибл скрывается корректно-->
+
+
         <field name="is_default">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string">Is default</item>
-                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="visible" xsi:type="boolean">false</item>
                     <item name="dataType" xsi:type="string">text</item>
                     <item name="formElement" xsi:type="string">input</item>
                     <item name="source" xsi:type="string">status</item>
@@ -120,23 +125,23 @@
             </settings>
         </field>
 
-        <field name="is_deleted">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string">Is deleted</item>
-                    <item name="visible" xsi:type="boolean">true</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="source" xsi:type="string">status</item>
-                    <item name="require" xsi:type="boolean">true</item>
-                    <item name="dataScope" xsi:type="string">is_deleted</item>
-                </item>
-            </argument>
-            <settings>
-                <validation>
-                    <rule name="required-entry" xsi:type="boolean">true</rule>
-                </validation>
-            </settings>
-        </field>
+<!--        <field name="is_deleted">-->
+<!--            <argument name="data" xsi:type="array">-->
+<!--                <item name="config" xsi:type="array">-->
+<!--                    <item name="label" xsi:type="string">Is deleted</item>-->
+<!--                    <item name="visible" xsi:type="boolean">true</item>-->
+<!--                    <item name="dataType" xsi:type="string">text</item>-->
+<!--                    <item name="formElement" xsi:type="string">input</item>-->
+<!--                    <item name="source" xsi:type="string">status</item>-->
+<!--                    <item name="require" xsi:type="boolean">true</item>-->
+<!--                    <item name="dataScope" xsi:type="string">is_deleted</item>-->
+<!--                </item>-->
+<!--            </argument>-->
+<!--            <settings>-->
+<!--                <validation>-->
+<!--                    <rule name="required-entry" xsi:type="boolean">true</rule>-->
+<!--                </validation>-->
+<!--            </settings>-->
+<!--        </field>-->
     </fieldset>
 </form>

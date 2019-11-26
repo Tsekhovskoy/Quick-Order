@@ -8,24 +8,28 @@
     <span><?= /* @escapeNotVerified */ __('Quick Order') ?></span>
 </button>
 
+
+
 <div class="mypopup<?= $productSku ?>">
-    <form action="<?= $block->getUrl("quickorderr/index/save") ?>" method="POST">
+    <form action="<?= $block->getUrl("quickorderr/index/save") ?>"
+          method="POST"
+          data-mage-init='{"validation":{}}'>
         <label>Name
-            <input type="text" name="name" required>
+            <input type="text" name="name" data-validate='{"required":true, "maxlength": 18}'>
         </label>
-        <label>Phone
-            <input type="text" name="phone" required>
+        <label>Phone number
+            <input type="number" name="phone" data-validate='{"required":true, "maxlength": 20, "number": true}'>
         </label>
         <label>Email
-            <input type="email" name="email">
+            <input type="email" name="email" data-validate="{'maxlength': 50, 'validate-email':true }">
         </label>
-            <input type="hidden" name="sku" value="<?= $productSku ?>">
-            <input type="hidden" name="url" value="<?= $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])?>">
-        <input type="submit" value="Send">
+        <input type="hidden" name="sku" value="<?= $productSku ?>">
+        <input type="hidden" name="url" value="<?= $block->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true])?>">
+        <input type="submit" value="Send" class="action submit primary">
     </form>
 </div>
-<?= $url = $block->getUrl('alevel/index/create'); ini_set('display_errors', 1);
-        error_reporting(E_ALL);?>
+
+
 <script>
     require(
         [

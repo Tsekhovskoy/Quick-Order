@@ -2,11 +2,33 @@
 
 namespace Thesis\QuickOrder\Controller\Adminhtml\Index;
 
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\Registry;
+use Magento\Framework\View\Result\PageFactory;
+use Psr\Log\LoggerInterface;
 use Thesis\QuickOrder\Api\Model\Data\QuickOrderInterface;
+use Thesis\QuickOrder\Api\Model\Data\StatusInterfaceFactory;
+use Thesis\QuickOrder\Api\Model\QuickOrderRepositoryInterface;
 use Thesis\QuickOrder\Controller\Adminhtml\Order as BaseAction;
+use Thesis\QuickOrder\Model\QuickOrderFactory;
 
 class Save extends BaseAction
 {
+    private $statusModel;
+
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        PageFactory $pageFactory,
+        QuickOrderRepositoryInterface $quickorderRepository,
+        QuickOrderFactory $factory,
+        LoggerInterface $logger,
+        StatusInterfaceFactory $statusModel
+    ) {
+        $this->statusModel = $statusModel;
+        parent::__construct($context, $registry, $pageFactory, $quickorderRepository, $factory, $logger);
+    }
+
     /** {@inheritdoc} */
     public function execute()
     {
@@ -26,8 +48,18 @@ class Save extends BaseAction
             } else {
                 unset($formData[QuickOrderInterface::ID_FIELD]);
             }
+            /**
+             * @var \Thesis\QuickOrder\Model\Status $statusModel
+             */
+
+            $statusModel = $this->statusModel->create();
+            $statusModel->load("1", "is_default")->getData();
+
+//            $this->statusFactory->create()->load($statusModel, "1", "is_default");
+//            $statusModel = $this->statusCollectionFactory->create()->addFieldToFilter('is_default', ['eq' => 1])->getFirstItem();
 
             $model->setData($formData);
+            $model->setStatus($statusModel);
 
             try {
                 $model = $this->repository->save($model);

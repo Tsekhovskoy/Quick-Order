@@ -119,11 +119,6 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
             Table::TYPE_SMALLINT,
             1,
             ['nullable' => false,  'default' => 0]
-        )->addColumn(
-            StatusSchemaInterface::IS_DELETED,
-            Table::TYPE_SMALLINT,
-            1,
-            ['nullable' => false,  'default' => 0]
         )->setComment(
             'Thesis Quick Order Status'
         );

@@ -33,14 +33,17 @@ class InstallData implements InstallDataInterface
             [
                 StatusSchemaInterface::STATUS_CODE_COL_NAME => 'pending',
                 StatusSchemaInterface::STATUS_LABEL_COL_NAME => 'Pending',
+                StatusSchemaInterface::IS_DEFAULT => 1,
             ],
             [
                 StatusSchemaInterface::STATUS_CODE_COL_NAME => 'close',
                 StatusSchemaInterface::STATUS_LABEL_COL_NAME => 'Close',
+                StatusSchemaInterface::IS_DEFAULT => 0,
             ],
             [
                 StatusSchemaInterface::STATUS_CODE_COL_NAME => 'process',
                 StatusSchemaInterface::STATUS_LABEL_COL_NAME => 'Process',
+                StatusSchemaInterface::IS_DEFAULT => 0,
             ]
         ];
 
@@ -48,6 +51,7 @@ class InstallData implements InstallDataInterface
             $lesson = $this->_postFactory->create();
             $lesson->setLabel($statusData[$i][StatusSchemaInterface::STATUS_LABEL_COL_NAME]);
             $lesson->setStatusCode($statusData[$i][StatusSchemaInterface::STATUS_CODE_COL_NAME]);
+            $lesson->setIsDefault($statusData[$i][StatusSchemaInterface::IS_DEFAULT]);
             $transactionalModel->addObject($lesson);
         }
 
