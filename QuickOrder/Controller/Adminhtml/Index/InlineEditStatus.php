@@ -6,8 +6,9 @@ use Magento\Cms\Controller\Adminhtml\Page\PostDataProcessor;
 use Magento\Framework\Controller\Result\JsonFactory;
 
 use Thesis\QuickOrder\Api\Model\Data\StatusInterface;
-
+use Thesis\QuickOrder\Api\Model\Data\StatusInterfaceFactory;
 use Thesis\QuickOrder\Api\Model\StatusRepositoryInterface as StatusRepository;
+use Thesis\QuickOrder\Model\ResourceModel\StatusFactory;
 
 /**
  * Cms page grid inline edit controller
@@ -37,18 +38,34 @@ class InlineEditStatus extends \Magento\Backend\App\Action
     protected $jsonFactory;
 
     /**
+     * @var StatusFactory;
+     */
+    protected $statusRepositoryFactory;
+    /**
+     * @var StatusInterfaceFactory
+     */
+
+    protected $statusModelFactory;
+
+    /**
      * @param Context $context
+     * @param StatusFactory $statusRepositoryFactory
+     * @param StatusInterfaceFactory $statusModelFactory
      * @param PostDataProcessor $dataProcessor
      * @param statusRepository $statusRepository
      * @param JsonFactory $jsonFactory
      */
     public function __construct(
         Context $context,
+        StatusFactory $statusRepositoryFactory,
+        StatusInterfaceFactory $statusModelFactory,
         PostDataProcessor $dataProcessor,
         StatusRepository $statusRepository,
         JsonFactory $jsonFactory
     ) {
         parent::__construct($context);
+        $this->statusRepositoryFactory = $statusRepositoryFactory;
+        $this->statusModelFactory = $statusModelFactory;
         $this->dataProcessor = $dataProcessor;
         $this->statusRepository = $statusRepository;
         $this->jsonFactory = $jsonFactory;
@@ -74,10 +91,16 @@ class InlineEditStatus extends \Magento\Backend\App\Action
         }
 
         foreach (array_keys($postItems) as $pageId) {
-            /** @var \Thesis\QuickOrder\Model\Status $page */
+            /** @var \Thesis\QuickOrder\Model\Status $page
+             *@var \Thesis\QuickOrder\Model\Status $modelStatus
+             */
             $page = $this->statusRepository->getById($pageId);
-            $resource = $page->getResource();
-            $lal = $resource->load($page, "1", "is_default");
+            $modelStatus = $this->statusModelFactory->create();
+            $this->statusRepositoryFactory->create()->load($modelStatus, "1", "is_default");
+            $modelStatus->setIsDefault(0);
+            $this->statusRepository->save($modelStatus);
+//            $resource = $page->getResource();
+//            $lal = $resource->load($page, "1", "is_default");
             try {
                 $pageData = $this->filterPost($postItems[$pageId]);
                 $this->validatePost($pageData, $page, $error, $messages);
