@@ -6,6 +6,7 @@ use Thesis\QuickOrder\Api\Model\Data\QuickOrderInterface;
 use Thesis\QuickOrder\Controller\Adminhtml\Order as BaseAction;
 
 class Create extends BaseAction
+
 {
     const ACL_RESOURCE      = 'Thesis_QuickOrder::all';
     const MENU_ITEM         = 'Thesis_QuickOrder::all';

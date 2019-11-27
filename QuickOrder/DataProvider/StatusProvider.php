@@ -6,6 +6,10 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
 use Thesis\QuickOrder\Api\Model\Data\StatusInterface;
 use Thesis\QuickOrder\Model\ResourceModel\Status\CollectionFactory;
 
+/**
+ * Class StatusProvider
+ * @package Thesis\QuickOrder\DataProvider
+ */
 class StatusProvider extends AbstractDataProvider
 {
     /**

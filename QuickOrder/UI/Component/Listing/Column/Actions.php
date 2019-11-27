@@ -43,10 +43,10 @@ class Actions extends Column
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');
                 if (isset($item['order_id'])) {
-                    $item[$name]['edit'] = [
-                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['id' => $item['order_id']]),
-                        'label' => __('Edit')
-                    ];
+//                    $item[$name]['edit'] = [
+//                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['id' => $item['order_id']]),
+//                        'label' => __('Edit')
+//                    ];
                     $item[$name]['delete'] = [
                         'href' => $this->urlBuilder->getUrl(self::URL_PATH_DELETE, ['id' => $item['order_id']]),
                         'label' => __('Delete'),

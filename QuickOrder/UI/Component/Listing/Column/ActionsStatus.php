@@ -32,10 +32,10 @@ class ActionsStatus extends Column
             foreach ($dataSource['data']['items'] as &$item) {
                 $name = $this->getData('name');
                 if (isset($item['status_id'])) {
-                    $item[$name]['edit'] = [
-                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['id' => $item['status_id']]),
-                        'label' => __('Edit')
-                    ];
+//                    $item[$name]['edit'] = [
+//                        'href' => $this->urlBuilder->getUrl($this->editUrl, ['id' => $item['status_id']]),
+//                        'label' => __('Edit')
+//                    ];
                     $item[$name]['delete'] = [
                         'href' => $this->urlBuilder->getUrl(self::URL_PATH_DELETE, ['id' => $item['status_id'], 'default' => $item['is_default']]),
                         'label' => __('Delete'),
